@@ -1,5 +1,6 @@
 package main.java.clinique.controller;
 
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,14 +12,6 @@ import main.java.clinique.util.SessionManager;
 
 public class HeaderController {
 
-    @FXML
-    private void logout(ActionEvent event) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(new Scene(root));
-        stage.show();
-        SessionManager.clearSession();
-    }
 
     @FXML
     private void goHome(ActionEvent event) throws Exception {

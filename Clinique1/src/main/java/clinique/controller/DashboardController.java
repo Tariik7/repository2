@@ -2,7 +2,6 @@ package main.java.clinique.controller;
 
 import main.java.clinique.util.SessionManager;
 import main.java.clinique.model.Utilisateur;
-import main.java.clinique.util.SessionManager;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -16,6 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import main.java.clinique.dao.MedecinDAO;
@@ -41,7 +41,9 @@ public class DashboardController {
     
     @FXML private ImageView homeImage;
 
-
+    @FXML private BorderPane root;
+    
+    private String userRole ;
 
     @FXML private TextField searchField;
 
@@ -53,15 +55,51 @@ public class DashboardController {
 
     @FXML
     public void initialize() {
-        try {  
-          homeImage.setImage(new Image(getClass().getResourceAsStream("/images/home.jpg")));
+        try {
+            homeImage.setImage(new Image(getClass().getResourceAsStream("/images/home.jpg")));
+            
+            loadHeaderByRole(); // Charger header dynamique
+            
         } catch (Exception e) {
-            System.out.println("Erreur de chargement de l'image : " + e.getMessage());
+            System.out.println("Erreur de chargement de l'image ou header : " + e.getMessage());
         }
-
-       // handleAfficherMedecins(); // par défaut
-       // ajouterColonneActions();
     }
+    
+
+    public void setUserRole(String role) {
+        this.userRole = role;
+        try {
+            loadHeaderByRole();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadHeaderByRole() throws IOException {
+        String fxmlFile;
+        if (userRole != null && !userRole.isEmpty()) {
+            switch (userRole.toLowerCase()) {
+                case "admin": fxmlFile = "/views/HeaderAdmin.fxml"; break;
+                case "medecin": fxmlFile = "/views/HeaderMedecin.fxml"; break;
+                case "secretaire": fxmlFile = "/views/HeaderSecretaire.fxml"; break;
+                default: fxmlFile = "/views/HeaderAdmin.fxml"; break;
+            }
+        
+
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+        HBox header = loader.load();
+
+        // Si besoin, tu peux récupérer le controller du header et lui passer des infos
+        // Exemple:
+        // HeaderController controller = loader.getController();
+        // controller.setParentController(this);
+
+        root.setTop(header);
+    }}
+
+    // Ajoute un setter pour changer le rôle (à appeler après login)
+   
 
     
     @FXML
@@ -86,9 +124,18 @@ public class DashboardController {
     }
 
     @FXML
+    private void logout(ActionEvent event) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/views/login.fxml"));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(new Scene(root));
+        stage.show();
+        SessionManager.clearSession();
+    }
+    
+    @FXML
     private void handleMedecins() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/medecins_list.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/medecin/lister.fxml"));
             Parent root = loader.load(); // ✅ le chemin est bien défini
             Stage stage = new Stage();
             stage.setTitle("Liste des Médecins");
@@ -105,7 +152,7 @@ public class DashboardController {
     @FXML
     private void handlePatients() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/liste_patients.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/patient/lister.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Liste des Patients");
@@ -156,7 +203,7 @@ public class DashboardController {
     @FXML
     private void handleAddMedecin() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ajout_medecin.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/medecin/ajouter.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Ajouter un médecin");
@@ -172,7 +219,7 @@ public class DashboardController {
     @FXML
     private void handleAddPatient() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/ajout_patient.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/patient/ajouter.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setTitle("Ajouter un patient");
@@ -195,20 +242,6 @@ public class DashboardController {
 
     }
 
-    @FXML
-    private void handleRendezVous() {
-        System.out.println("Navigation vers la gestion des rendez-vous...");
-    }
-
-    @FXML
-    private void handleConsultations() {
-        System.out.println("Navigation vers la gestion des consultations...");
-    }
-
-    @FXML
-    private void handleStatistiques() {
-        System.out.println("Navigation vers les statistiques...");
-    }
 
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -216,6 +249,8 @@ public class DashboardController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    
+    
     @FXML private TableColumn<Object, Void> colActions;
 
     private void ajouterColonneActions() {
@@ -291,10 +326,10 @@ public class DashboardController {
 
     private void ouvrirFenetreModificationMedecin(Medecin medecin) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/modifier_medecin.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/medecin/modifier.fxml"));
             Parent root = loader.load();
 
-            ModifierMedecinController controller = loader.getController();
+            MedecinsController controller = loader.getController();
             controller.setMedecin(medecin);
 
             Stage stage = new Stage();
@@ -313,10 +348,10 @@ public class DashboardController {
     
     private void ouvrirFenetreModificationPatient(Patient patient) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/modifier_patient.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/patient/modifier.fxml"));
             Parent root = loader.load();
 
-            ModifierPatientController controller = loader.getController();
+            PatientsController controller = loader.getController();
             controller.setPatient(patient);
 
             Stage stage = new Stage();
@@ -330,7 +365,7 @@ public class DashboardController {
             e.printStackTrace();
             showAlert("Erreur lors de l'ouverture du formulaire de modification.");
         }
-    }
+    }}
 
 
-}
+

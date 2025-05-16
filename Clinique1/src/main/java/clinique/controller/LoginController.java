@@ -47,6 +47,12 @@ public class LoginController {
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
         Parent root = loader.load();
+
+        // Récupérer le controller du Dashboard
+        DashboardController dashboardController = loader.getController();
+        // Passer le rôle à DashboardController pour charger le header adapté
+        dashboardController.setUserRole(role);
+
         Stage stage = (Stage) loginField.getScene().getWindow();
         stage.setScene(new Scene(root));
         stage.setTitle("Tableau de bord - Clinique");

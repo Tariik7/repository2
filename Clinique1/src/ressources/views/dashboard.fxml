@@ -9,12 +9,10 @@
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="main.java.clinique.controller.DashboardController"
-            stylesheets="@/styles/app.css">
-
+            stylesheets="@/styles/app.css"
+			fx:id="root">
     <!-- 🔹 En-tête -->
-    <top>
-        <fx:include source="Header.fxml"/>
-    </top>
+    
 
     <!-- 🔹 Contenu principal -->
     <center>
@@ -22,17 +20,9 @@
             <padding>
                 <Insets top="10" right="10" bottom="10" left="10"/>
             </padding>
-
-            <HBox alignment="CENTER_LEFT" spacing="20">
-                <Label text="Liste des Données" styleClass="section-title"/>
-                <Pane HBox.hgrow="ALWAYS"/>
-                <Button fx:id="btnMedecins" text="Afficher Médecins" onAction="#handleMedecins"/>
-                <Button fx:id="btnPatients" text="Afficher Patients" onAction="#handlePatients"/>
-            </HBox>
-
             <!-- 🔹 Image d’accueil -->
             <StackPane alignment="CENTER">
-                <ImageView fx:id="homeImage" fitWidth="500" preserveRatio="true"/>
+                <ImageView fx:id="homeImage" fitWidth="1000" preserveRatio="true"/>
             </StackPane>
 
         </VBox>

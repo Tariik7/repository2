@@ -8,60 +8,81 @@ import java.util.List;
 
 public class SecretaireDAO {
 
-    public void ajouterSecretaire(Secretaire secretaire) throws SQLException {
-        String sql = "INSERT INTO Secretaire (id_secretaire, nom, prenom, telephone, email) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, secretaire.getId());
-            stmt.setString(2, secretaire.getNom());
-            stmt.setString(3, secretaire.getPrenom());
-            stmt.setString(4, secretaire.getTelephone());
-            stmt.setString(5, secretaire.getEmail());
-            stmt.executeUpdate();
-        }
+    private Connection getConnection() throws SQLException {
+        // Implémente ta méthode de connexion à la base
+        return DBConnection.getConnection(); // Exemple, adapte selon ton code
     }
 
     public List<Secretaire> listerSecretaires() throws SQLException {
         List<Secretaire> liste = new ArrayList<>();
-        String sql = "SELECT * FROM Secretaire";
-
-        try (Connection conn = DBConnection.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery(sql)) {
+        String sql = "SELECT id, nom, prenom, email, telephone FROM secretaire";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                Secretaire s = new Secretaire(
-                    rs.getInt("id_secretaire"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getString("telephone"),
-                    rs.getString("email")
-                );
+                Secretaire s = new Secretaire();
+                s.setId(rs.getInt("id"));
+                s.setNom(rs.getString("nom"));
+                s.setPrenom(rs.getString("prenom"));
+                s.setEmail(rs.getString("email"));
+                s.setTelephone(rs.getString("telephone"));
                 liste.add(s);
             }
         }
-
         return liste;
     }
 
+    public void ajouterSecretaire(Secretaire s) throws SQLException {
+        String sql = "INSERT INTO secretaire (nom, prenom, email, telephone) VALUES (?, ?, ?, ?)";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, s.getNom());
+            stmt.setString(2, s.getPrenom());
+            stmt.setString(3, s.getEmail());
+            stmt.setString(4, s.getTelephone());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void modifierSecretaire(Secretaire s) throws SQLException {
+        String sql = "UPDATE secretaire SET nom=?, prenom=?, email=?, telephone=? WHERE id=?";
+        try (Connection conn = getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, s.getNom());
+            stmt.setString(2, s.getPrenom());
+            stmt.setString(3, s.getEmail());
+            stmt.setString(4, s.getTelephone());
+            stmt.setInt(5, s.getId());
+            stmt.executeUpdate();
+        }
+    }
+
     public void supprimerSecretaire(int id) throws SQLException {
-        String sql = "DELETE FROM Secretaire WHERE id_secretaire = ?";
-        try (Connection conn = DBConnection.getConnection();
+        String sql = "DELETE FROM secretaire WHERE id=?";
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();
         }
     }
 
-    public void modifierSecretaire(Secretaire secretaire) throws SQLException {
-        String sql = "UPDATE Secretaire SET nom=?, prenom=?, telephone=?, email=? WHERE id_secretaire=?";
-        try (Connection conn = DBConnection.getConnection();
+    public Secretaire trouverParId(int id) throws SQLException {
+        Secretaire s = null;
+        String sql = "SELECT id, nom, prenom, email, telephone FROM secretaire WHERE id=?";
+        try (Connection conn = getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, secretaire.getNom());
-            stmt.setString(2, secretaire.getPrenom());
-            stmt.setString(3, secretaire.getTelephone());
-            stmt.setString(4, secretaire.getEmail());
-            stmt.setInt(5, secretaire.getId());
-            stmt.executeUpdate();
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    s = new Secretaire();
+                    s.setId(rs.getInt("id"));
+                    s.setNom(rs.getString("nom"));
+                    s.setPrenom(rs.getString("prenom"));
+                    s.setEmail(rs.getString("email"));
+                    s.setTelephone(rs.getString("telephone"));
+                }
+            }
         }
+        return s;
     }
 }
