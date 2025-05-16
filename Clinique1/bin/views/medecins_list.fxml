@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<VBox spacing="10" xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="main.java.clinique.controller.ListeMedecinsController"
+      stylesheets="@/styles/app.css">
+
+    <padding>
+        <Insets top="15" right="15" bottom="15" left="15"/>
+    </padding>
+
+    <HBox spacing="10">
+        <Label text="Liste des Médecins" styleClass="section-title"/>
+        <Pane HBox.hgrow="ALWAYS"/>
+        <Button text="Ajouter Médecin" onAction="#handleAjouterMedecin"/>
+    </HBox>
+
+    <TableView fx:id="tableMedecins">
+        <columns>
+            <TableColumn fx:id="colNom" text="Nom"/>
+            <TableColumn fx:id="colPrenom" text="Prénom"/>
+            <TableColumn fx:id="colEmail" text="Email"/>
+            <TableColumn fx:id="colSpecialite" text="Spécialité"/>
+            <TableColumn fx:id="colTelephone" text="Téléphone"/>
+            <TableColumn fx:id="colActions" text="Actions"/>
+        </columns>
+    </TableView>
+</VBox>

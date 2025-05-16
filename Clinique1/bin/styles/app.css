@@ -1,0 +1,143 @@
+/* === TITRES & TEXTES === */
+.header-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c0392b;
+}
+
+.section-title {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+.error-label {
+    -fx-text-fill: red;
+    -fx-font-size: 13px;
+}
+
+/* === BARRE SUPÉRIEURE === */
+.top-bar {
+    -fx-background-color: #f8f9fa;
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 0 0 1 0;
+    -fx-padding: 10;
+}
+
+/* === CHAMPS DE TEXTE === */
+.text-field, .password-field, .combo-box, .date-picker {
+    -fx-pref-width: 250;
+    -fx-padding: 8;
+    -fx-font-size: 13px;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #cccccc;
+}
+
+.text-field:focused, .password-field:focused {
+    -fx-border-color: #3498db;
+}
+
+/* === BOUTONS === */
+.button {
+    -fx-font-size: 13px;
+    -fx-padding: 6 16;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-cursor: hand;
+}
+
+.button-blue {
+    -fx-background-color: #3498db;
+    -fx-text-fill: white;
+}
+.button-blue:hover {
+    -fx-background-color: #2980b9;
+}
+
+.button-red {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+}
+.button-red:hover {
+    -fx-background-color: #c0392b;
+}
+
+.button-green {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+}
+.button-green:hover {
+    -fx-background-color: #27ae60;
+}
+
+/* === TABLEAUX === */
+.table-view {
+    -fx-border-color: #dcdcdc;
+    -fx-border-width: 1;
+    -fx-background-color: white;
+}
+
+.table-column {
+    -fx-alignment: CENTER_LEFT;
+    -fx-font-size: 13px;
+}
+
+.table-row-cell:selected {
+    -fx-background-color: #dff0d8;
+}
+
+.table-cell {
+    -fx-padding: 5;
+}
+
+/* === LOGIN BOX === */
+.login-box {
+    -fx-padding: 40;
+    -fx-background-color: white;
+    -fx-border-color: #dddddd;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 5);
+    -fx-max-width: 350;
+}
+
+/* === CHAMPS LOGIN === */
+.login-field {
+    -fx-pref-width: 250;
+    -fx-padding: 8;
+    -fx-font-size: 14px;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-border-color: #cccccc;
+}
+
+.login-title {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #2c3e50;
+}
+
+/* === BOÎTES ET CONTENEURS === */
+.vbox, .hbox {
+    -fx-spacing: 10;
+}
+
+/* === PANE PRINCIPAL === */
+.root {
+    -fx-background-color: #ecf0f1;
+}
+.splash-root {
+    -fx-background-color: white;
+}
+
+.splash-title {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #c0392b;
+}
+.table-cell .button {
+    -fx-font-size: 14px;    /* texte plus grand */
+    -fx-padding: 8 15;      /* plus d'espace autour */
+    -fx-min-width: 80px;    /* largeur minimale pour que texte ne soit pas tronqué */
+}

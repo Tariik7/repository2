@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.ImageView?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="main.java.clinique.controller.DashboardController"
+            stylesheets="@/styles/app.css">
+
+    <!-- Barre supérieure -->
+    <top>
+        <HBox styleClass="top-bar" spacing="20" alignment="CENTER_LEFT">
+            <Label text="CLINIQUE MANAGEMENT SYSTEM" styleClass="header-title"/>
+            <Pane HBox.hgrow="ALWAYS"/>
+            <Button text="Home" fx:id="btnHome" />
+            <Button text="Logout" onAction="#handleLogout" />
+        </HBox>
+    </top>
+
+    <!-- Contenu central -->
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <HBox alignment="CENTER_LEFT" spacing="20">
+                <Label text="Liste des Données" styleClass="section-title"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+				<Button fx:id="btnMedecins" text="Afficher Médecins" onAction="#handleMedecins"/>
+                <Button fx:id="btnPatients" text="Afficher Patients" onAction="#handlePatients"/>
+                <Button fx:id="btnAjouterMedecin" text="Ajouter un médecin" onAction="#handleAddMedecin" />
+                <Button fx:id="btnAjouterPatient" text="Ajouter un patient" onAction="#handleAddPatient" />
+            </HBox>
+
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Recherche..." />
+                <Button text="Rechercher" onAction="#handleSearch"/>
+                <Button text="Actualiser" onAction="#handleRefresh"/>
+            </HBox>
+
+            <!-- Image au centre -->
+            <StackPane alignment="CENTER">
+                <ImageView fx:id="homeImage" fitWidth="500" preserveRatio="true" />
+            </StackPane>
+
+        </VBox>
+    </center>
+</BorderPane>
