@@ -4,17 +4,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            xmlns="http://javafx.com/javafx"
             fx:controller="main.java.clinique.controller.AjoutMedecinController"
-            prefWidth="400" prefHeight="400">
-    
-    <VBox spacing="10" alignment="CENTER" layoutX="50" layoutY="20" prefWidth="300">
-        <padding>
-            <Insets top="20" right="20" bottom="20" left="20"/>
-        </padding>
+            stylesheets="@/styles/app.css"
+            prefWidth="450" prefHeight="450">
 
-        <Label text="Ajouter un Médecin" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+    <VBox spacing="15" alignment="CENTER"
+          AnchorPane.topAnchor="20" AnchorPane.leftAnchor="20" AnchorPane.rightAnchor="20">
+
+        <Label text="Ajouter un Médecin" styleClass="header-title"/>
 
         <TextField fx:id="tfNom" promptText="Nom"/>
         <TextField fx:id="tfPrenom" promptText="Prénom"/>
@@ -25,8 +24,8 @@
         <Label fx:id="lblErreur" textFill="red"/>
 
         <HBox spacing="10" alignment="CENTER">
-            <Button text="Enregistrer" onAction="#handleEnregistrer"/>
-            <Button text="Annuler" onAction="#handleAnnuler"/>
+            <Button text="Enregistrer" onAction="#handleEnregistrer" styleClass="btn-save"/>
+            <Button text="Annuler" onAction="#handleAnnuler" styleClass="btn-cancel"/>
         </HBox>
     </VBox>
 </AnchorPane>

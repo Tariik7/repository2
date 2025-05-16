@@ -26,7 +26,8 @@ public class ListeMedecinsController {
     @FXML private TableColumn<Medecin, String> colTelephone;
     @FXML private TableColumn<Medecin, Void> colActions;
     
-
+    @FXML private TextField searchField;
+    
     private final MedecinDAO medecinDAO = new MedecinDAO();
 
     @FXML
@@ -72,8 +73,15 @@ public class ListeMedecinsController {
             private final Button btnVoir = new Button("Voir");
             private final Button btnModifier = new Button("Modifier");
             private final Button btnSupprimer = new Button("Supprimer");
+            
+     
 
             {
+            	
+            	   btnVoir.getStyleClass().add("button-view");
+            	    btnModifier.getStyleClass().add("button-edit");
+            	    btnSupprimer.getStyleClass().add("button-delete"); 
+            	    
                 btnVoir.setOnAction(e -> {
                     Medecin med = getTableView().getItems().get(getIndex());
                     afficherPopupDetailsMedecin(med);
@@ -100,6 +108,7 @@ public class ListeMedecinsController {
                 });
             }
 
+            
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
@@ -110,7 +119,9 @@ public class ListeMedecinsController {
                     setGraphic(box);
                 }
             }
-        });
+        }
+        
+        		);
     }
 
 
@@ -154,7 +165,26 @@ public class ListeMedecinsController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    @FXML
+	private void handleSearch() {
+        String keyword = searchField.getText().trim().toLowerCase();
+        try {
+            ObservableList<Medecin> all = FXCollections.observableArrayList(medecinDAO.listerMedecins());
+            ObservableList<Medecin> filtered = all.filtered(m ->
+                m.getNom().toLowerCase().contains(keyword) ||
+                m.getPrenom().toLowerCase().contains(keyword) ||
+                m.getEmail().toLowerCase().contains(keyword)
+            );
+            tableMedecins.setItems(filtered);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    @FXML
+    private void handleRefresh() {
+        chargerMedecins();
+    }
     
     }
 

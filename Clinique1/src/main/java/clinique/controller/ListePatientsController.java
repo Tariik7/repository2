@@ -48,9 +48,10 @@ public class ListePatientsController {
             private final Button btnSupprimer = new Button("Supprimer");
  
             {
-                btnVoir.getStyleClass().add("button-green");
-                btnModifier.getStyleClass().add("button-blue");
-                btnSupprimer.getStyleClass().add("button-red");
+            	  
+            	 btnVoir.getStyleClass().add("button-view");
+            	    btnModifier.getStyleClass().add("button-edit");
+            	    btnSupprimer.getStyleClass().add("button-delete");
 
                 btnVoir.setOnAction(e -> {
                     Patient pat = getTableView().getItems().get(getIndex());
@@ -158,4 +159,29 @@ public class ListePatientsController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    
+    @FXML
+    private TextField searchField;
+
+    @FXML
+    private void handleSearch() {
+        String keyword = searchField.getText().trim().toLowerCase();
+        try {
+            ObservableList<Patient> all = FXCollections.observableArrayList(patientDAO.listerPatients());
+            ObservableList<Patient> filtered = all.filtered(p ->
+                p.getNom().toLowerCase().contains(keyword) ||
+                p.getPrenom().toLowerCase().contains(keyword) ||
+                p.getEmail().toLowerCase().contains(keyword)
+            );
+            tablePatients.setItems(filtered);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleRefresh() {
+        chargerPatients();
+    }
+
 }

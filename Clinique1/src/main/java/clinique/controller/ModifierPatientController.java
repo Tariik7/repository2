@@ -13,7 +13,8 @@ public class ModifierPatientController {
     @FXML private TextField tfNom;
     @FXML private TextField tfPrenom;
     @FXML private DatePicker dpNaissance;
-    @FXML private TextField tfSexe;
+    @FXML private ChoiceBox<String> cbSexe;
+
     @FXML private TextField tfTelephone;
     @FXML private TextField tfEmail;
     @FXML private TextField tfAdresse;
@@ -28,7 +29,7 @@ public class ModifierPatientController {
         tfNom.setText(patient.getNom());
         tfPrenom.setText(patient.getPrenom());
         dpNaissance.setValue(patient.getDateNaissance().toLocalDate());
-        tfSexe.setText(String.valueOf(patient.getSexe()));
+        cbSexe.setValue(String.valueOf(patient.getSexe()));
         tfTelephone.setText(patient.getTelephone());
         tfEmail.setText(patient.getEmail());
         tfAdresse.setText(patient.getAdresse());
@@ -39,7 +40,7 @@ public class ModifierPatientController {
         try {
             String nom = tfNom.getText().trim();
             String prenom = tfPrenom.getText().trim();
-            String sexe = tfSexe.getText().trim().toUpperCase();
+            String sexe = cbSexe.getValue(); // au lieu de tfSexe.getText()
             String telephone = tfTelephone.getText().trim();
             String email = tfEmail.getText().trim();
             String adresse = tfAdresse.getText().trim();
